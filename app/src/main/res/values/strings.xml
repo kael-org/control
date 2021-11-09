@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">control</string>
+    <string name="title_home">Home</string>
+    <string name="title_monthly">Monthly View</string>
+    <string name="title_add">Add Mood</string>
+    <string name="title_yearly">Yearly View</string>
+    <string name="title_settings">Settings</string>
+</resources>
