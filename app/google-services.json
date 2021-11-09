@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "997023703635",
+    "project_id": "control-64259",
+    "storage_bucket": "control-64259.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997023703635:android:3b70e2d0ed6840e42fdca6",
+        "android_client_info": {
+          "package_name": "com.example.control"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "997023703635-1fqe2oi27kn3p222jirrvg0d34fkv4uf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtWbgZTN-wugG0nghxUO3tiL_Spo9JFsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "997023703635-1fqe2oi27kn3p222jirrvg0d34fkv4uf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
