@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.27395833333333336" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.27395833333333336" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.27395833333333336" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.27395833333333336" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/layout/fragment_add.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/layout/fragment_monthly.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/layout/fragment_yearly.xml" value="0.12537993920972645" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.19537037037037036" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>
