@@ -7,19 +7,9 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_monthly"
-        android:icon="@drawable/ic_sharp_date_range_24"
-        android:title="@string/title_monthly" />
-
-    <item
         android:id="@+id/navigation_add"
         android:icon="@drawable/ic_baseline_add_circle_24"
         android:title="@string/title_add" />
-
-    <item
-        android:id="@+id/navigation_yearly"
-        android:icon="@drawable/ic_sharp_calendar_today_24"
-        android:title="@string/title_yearly" />
 
     <item
         android:id="@+id/navigation_settings"

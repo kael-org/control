@@ -13,22 +13,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_monthly"
-        android:name="com.example.control.ui.monthlyView.MonthlyViewFragment"
-        android:label="@string/title_monthly"
-        tools:layout="@layout/fragment_monthly" />
-
-    <fragment
         android:id="@+id/navigation_add"
         android:name="com.example.control.ui.add.AddFragment"
         android:label="@string/title_add"
         tools:layout="@layout/fragment_add" />
-
-    <fragment
-        android:id="@+id/navigation_yearly"
-        android:name="com.example.control.ui.yearlyView.YearlyViewFragment"
-        android:label="@string/title_yearly"
-        tools:layout="@layout/fragment_yearly" />
 
     <fragment
         android:id="@+id/navigation_settings"
