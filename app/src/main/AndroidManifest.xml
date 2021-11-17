@@ -25,6 +25,9 @@
         <activity
             android:name=".ui.login.SignupActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.home.ViewDayMoodActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

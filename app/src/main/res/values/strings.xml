@@ -21,4 +21,7 @@
     <string name="tired">Tired</string>
     <string name="journal">Journal</string>
     <string name="add_an_optional_journal_entry">Add an optional journal entry</string>
+    <string name="chosen_day_title">Chosen Day Title</string>
+    <string name="journal_entry">Journal Entry</string>
+    <string name="moods">Moods</string>
 </resources>
