@@ -3,6 +3,7 @@ package com.example.control.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,11 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        // binding views
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // initializing database
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -64,8 +66,11 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Choose a random quote by randomly generating a number
+     */
     public void setRandomQuote() {
-        Integer random_num = (Integer) new Random().nextInt(numQuotes+1);
+        Integer random_num =(Integer) new Random().nextInt(numQuotes+1);
 
         DocumentReference documentReference = db.collection("Quotes").document(random_num.toString());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -82,6 +87,14 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Get the clicked date and start a new activity to view the day's mood
+     * @param calendarView
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
     private boolean onDateClick(CalendarView calendarView, int year, int month, int day) {
         // initialize Calendar format
         Calendar calendar_click = Calendar.getInstance();
@@ -97,6 +110,9 @@ public class HomeFragment extends Fragment {
         return true;
     }
 
+    /**
+     * When the view is destroyed, set binding to null
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

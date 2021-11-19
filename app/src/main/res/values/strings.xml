@@ -24,4 +24,10 @@
     <string name="chosen_day_title">Chosen Day Title</string>
     <string name="journal_entry">Journal Entry</string>
     <string name="moods">Moods</string>
+    <string name="username">username</string>
+    <string name="have_an_account">Have an account?</string>
+    <string name="profile">Profile</string>
+    <string name="log_out">Log Out</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="view_mood">View Moods</string>
 </resources>
