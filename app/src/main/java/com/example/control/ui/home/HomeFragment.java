@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -104,12 +105,41 @@ public class HomeFragment extends Fragment {
         String month_str = (String) DateFormat.format("MMMM", calendar_click.getTime());
         String date = month_str + " " + day + ", " + year;
 
-        Intent intent = new Intent(getContext(), ViewDayMoodActivity.class);
-        intent.putExtra(HomeFragment.VIEW_MOOD_TITLE, date);
-        startActivity(intent);
+        // check if a mood exists for the current date
+        checkIfMoodExists(date);
         return true;
     }
 
+    /**
+     * helper method that checks the database if a mood already exists
+     * If exists, start another activity
+     * Else, show a toast message
+     * @param date
+     */
+    public void checkIfMoodExists(String date) {
+        DocumentReference documentReference = db.collection("Users").document(uid).
+                collection("Moods").document(date);
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // if a mood exists for the current date, go to another activity
+                        Intent intent = new Intent(getContext(), ViewDayMoodActivity.class);
+                        intent.putExtra(HomeFragment.VIEW_MOOD_TITLE, date);
+                        startActivity(intent);
+                    } else {
+                        // else, show a toast message
+                        Toast.makeText(getContext(), "There's no mood for this date!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+    }
     /**
      * When the view is destroyed, set binding to null
      */
