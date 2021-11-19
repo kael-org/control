@@ -28,6 +28,9 @@
         <activity
             android:name=".ui.home.ViewDayMoodActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.home.MoodsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

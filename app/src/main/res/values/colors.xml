@@ -4,4 +4,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#FFC0C0C0</color>
+
+    <!-- mood colors-->
+    <color name="happy">#FFe68cde</color>
+    <color name="sad">#FF72b2d4</color>
+    <color name="okay">#FF8bd9a2</color>
+    <color name="tired">#FFdbda93</color>
+    <color name="anxious">#FFdea15b</color>
+    <color name="angry">#FFDF4640</color>
 </resources>

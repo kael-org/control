@@ -4,52 +4,42 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.control.MainActivity;
-import com.example.control.ui.login.LoginActivity;
+import com.example.control.databinding.ActivityMoodsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.example.control.databinding.ActivityViewDayMoodBinding;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class ViewDayMoodActivity extends AppCompatActivity {
-
-    private ActivityViewDayMoodBinding binding;
+public class MoodsActivity extends AppCompatActivity {
+    private ActivityMoodsBinding binding;
     private FirebaseFirestore db;
     private FirebaseUser user;
     private String uid;
     private DocumentReference documentReference;
 
     private FloatingActionButton backButton;
-    private TextView titleView;
-    private TextView journalEntry;
     private String title;
-    private Button viewMoodButton;
+    private ListView moodListView;
+
+    private ArrayList<Mood> moodList;
+    private ArrayAdapter<Mood> moodAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // creates the activity view
-        binding = ActivityViewDayMoodBinding.inflate(getLayoutInflater());
+        binding = ActivityMoodsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Get the Intent that started this activity and extract them
@@ -63,25 +53,21 @@ public class ViewDayMoodActivity extends AppCompatActivity {
         documentReference = db.collection("Users").document(uid).
                 collection("Moods").document(title);
 
-        // set the title
-        titleView = binding.ViewDayMoodTitle;
-        titleView.setText(title);
 
         // back button to go back to previous fragment
-        backButton = binding.viewDayMoodBack;
+        backButton = binding.moodsBack;
         backButton.setOnClickListener(this::backButtonOnClick);
 
-        // set the journal entry
-        journalEntry = binding.ViewJournalEntry;
-        setJournalEntry();
-
-        // listener for when the user wants to view the moods
-        viewMoodButton = binding.viewMoodButton;
-        viewMoodButton.setOnClickListener(this:: viewMoodButtonOnClick);
+        // set the moods
+        moodList = new ArrayList<>();
+        moodListView = binding.moodListView;
+        moodAdapter = new MoodAdapter(this, moodList);
+        moodListView.setAdapter(moodAdapter);
+        setMoodListView();
     }
 
     /**
-     * Go back to home fragment
+     * Go back to previous activity
      * @param view
      * @return
      */
@@ -91,32 +77,24 @@ public class ViewDayMoodActivity extends AppCompatActivity {
     }
 
     /**
-     * Set the journal entry for a given date, if exists
+     * Getting all the moods to be listed to a listview
      */
-    private void setJournalEntry() {
+    private void setMoodListView() {
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        String random_quote = (String) document.getData().get("entry");
-                        journalEntry.setText(random_quote);
+                        moodList.clear();
+                        ArrayList<?> moods = (ArrayList<?>) document.getData().get("moods");
+                        for (Object mood : moods) {
+                            moodList.add(new Mood((String) mood));
+                        }
+                        moodAdapter.notifyDataSetChanged();
                     }
                 }
             }
         });
-    }
-
-    /**
-     * Go to Moods Activity
-     * @param view
-     * @return
-     */
-    private boolean viewMoodButtonOnClick(View view) {
-        Intent intent = new Intent(ViewDayMoodActivity.this, MoodsActivity.class);
-        intent.putExtra(HomeFragment.VIEW_MOOD_TITLE, title);
-        startActivity(intent);
-        return true;
     }
 }

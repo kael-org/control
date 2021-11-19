@@ -1,9 +1,5 @@
 package com.example.control.ui.add;
 
-import static android.content.ContentValues.TAG;
-
-import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -11,26 +7,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.control.databinding.FragmentAddBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
@@ -60,11 +54,15 @@ public class AddFragment extends Fragment {
     private TextView date;
     private Button addMood;
 
+    private boolean moodAlreadyAdded;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // bind the views
         binding = FragmentAddBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // initialize database
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -84,10 +82,14 @@ public class AddFragment extends Fragment {
         // set the date
         setCurrentDate();
 
+        // listener for when the add mood is clicked
         addMood.setOnClickListener(this :: addMoodButtonClick);
         return root;
     }
 
+    /**
+     * Set the current date
+     */
     public void setCurrentDate() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -100,9 +102,41 @@ public class AddFragment extends Fragment {
         date.setText(date_str);
     }
 
+    /**
+     * When the add mood button is clicked, check if the mood already exists
+     * If it exists, call addMood method to perform more checks and add
+     * @param view
+     * @return
+     */
     private boolean addMoodButtonClick(View view) {
+        DocumentReference documentReference = db.collection("Users").document(uid).
+                collection("Moods").document(date.getText().toString());
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // show a warning to the user
+                        Toast.makeText(getContext(), "Mood already added for today!", Toast.LENGTH_SHORT).show();
+                        clear();
+                    } else {
+                        addMood();
+                    }
+                }
+            }
+        });
+        return true;
+    }
+
+    /**
+     * Helper method to perform checks and add mood
+     */
+    private void addMood() {
         ArrayList<String> moods = new ArrayList<>();
 
+        // perform checks and add
         if (happyButton.isChecked()) {
             moods.add("Happy");
         }
@@ -121,51 +155,58 @@ public class AddFragment extends Fragment {
         if (angryButton.isChecked()) {
             moods.add("Angry");
         }
-
-        // Add to database
-        Calendar calendar = Calendar.getInstance();
-        String dateAdd = new SimpleDateFormat("MM/dd/yyyy").format(calendar.getTime());
-        Date dateAddDB = null;
-        try {
-            dateAddDB = new SimpleDateFormat("MM/dd/yyyy").parse(dateAdd);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        // checks if the user has clicked at least one mood
+        if (moods.isEmpty()) {
+            Toast.makeText(getContext(), "Please choose at least one mood for today!",
+                    Toast.LENGTH_SHORT).show();
         }
+        else {
+            // Add to database
+            Calendar calendar = Calendar.getInstance();
+            String dateAdd = new SimpleDateFormat("MM/dd/yyyy").format(calendar.getTime());
+            Date dateAddDB = null;
+            try {
+                dateAddDB = new SimpleDateFormat("MM/dd/yyyy").parse(dateAdd);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-        // get the journal entry
-        String entry = journalEntry.getText().toString();
+            // get the journal entry
+            String entry = journalEntry.getText().toString();
 
-        // data
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("date", dateAddDB);
-        data.put("entry", entry);
-        data.put("moods", moods);
+            // data
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("date", dateAddDB);
+            data.put("entry", entry);
+            data.put("moods", moods);
 
-        // add to firebase
-        collectionReference
-                .document(date.getText().toString())
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // These are a method which gets executed when the task is succeeded
-                        Log.d(TAG, "Data has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-                    }
-                });
-        Toast.makeText(getContext(), "Mood Added", Toast.LENGTH_LONG).show();
-        clear();
-        return true;
+            // add to firebase
+            collectionReference
+                    .document(date.getText().toString())
+                    .set(data)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // These are a method which gets executed when the task is succeeded
+                            Log.d(TAG, "Data has been added successfully!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // These are a method which gets executed if there’s any problem
+                            Log.d(TAG, "Data could not be added!" + e.toString());
+                        }
+                    });
+            Toast.makeText(getContext(), "Mood Added", Toast.LENGTH_SHORT).show();
+            clear();
+        }
     }
 
+    /**
+     * clears all the fields
+     */
     private void clear(){
-        //sets all input fields to their original values
         happyButton.setChecked(false);
         sadButton.setChecked(false);
         angryButton.setChecked(false);
@@ -176,6 +217,9 @@ public class AddFragment extends Fragment {
 
     }
 
+    /**
+     * When the view is destroyed, set binding to null
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
