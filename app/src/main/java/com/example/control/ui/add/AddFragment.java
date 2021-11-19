@@ -143,14 +143,14 @@ public class AddFragment extends Fragment {
         if (sadButton.isChecked()) {
             moods.add("Sad");
         }
-        if (anxiousButton.isChecked()) {
-            moods.add("Anxious");
-        }
         if (okayButton.isChecked()) {
             moods.add("Okay");
         }
         if (tiredButton.isChecked()) {
             moods.add("Tired");
+        }
+        if (anxiousButton.isChecked()) {
+            moods.add("Anxious");
         }
         if (angryButton.isChecked()) {
             moods.add("Angry");

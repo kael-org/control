@@ -6,10 +6,11 @@
     <color name="grey">#FFC0C0C0</color>
 
     <!-- mood colors-->
-    <color name="happy">#FFe68cde</color>
+    <color name="happy">#FFffd500</color>
     <color name="sad">#FF72b2d4</color>
-    <color name="okay">#FF8bd9a2</color>
-    <color name="tired">#FFdbda93</color>
-    <color name="anxious">#FFdea15b</color>
-    <color name="angry">#FFDF4640</color>
+    <color name="okay">#FF81ff76</color>
+    <color name="tired">#FFa9a9a9</color>
+    <color name="anxious">#FFbe5afb</color>
+    <color name="angry">#FFff5555</color>
+
 </resources>
