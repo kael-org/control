@@ -14,15 +14,11 @@
     android:layout_height="wrap_content"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/quoteHome"
+    <CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="italic"
-        android:textColor="@color/black"
+        android:nestedScrollingEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -30,17 +26,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <CalendarView
-        android:id="@+id/calendarView"
+    <TextView
+        android:id="@+id/quoteHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:nestedScrollingEnabled="true"
+        android:layout_margin="15dp"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="italic"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quoteHome"
+        app:layout_constraintTop_toBottomOf="@id/calendarView"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
