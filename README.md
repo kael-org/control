@@ -16,7 +16,7 @@ Login Page          |  Home Page | Add Mood Page
 * Mockup - Figma
 * Development - Android Studio using Java
 * Backend - Firebase Firestore
-* Demo presentation - Google Slides and Zoom Video Communications
+* Demo presentation - [Google Slides](https://docs.google.com/presentation/d/1nQtHolQdXoHvzElFLmvRh3F_g_Yu7m1YS0CYi1iWfy0/edit?usp=sharing) and Zoom Video Communications
 
 ## Remarks
 This is an entry for the Calgary Youth Hackathon 2021
