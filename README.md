@@ -25,4 +25,6 @@ Collaboratively created and developed by:
   * [Kaye Ena Crayzhel F. Misay](https://github.com/kaynzhel)
   * [Raphael Miguel Gutierrez](https://github.com/rmgutierrez)
 
+Firestore access is now expired. Please refer to our demo video to check how the application works or message us so we can allow client requests. Thank you!
+
 Apache 2.0 License
